@@ -15,7 +15,9 @@ dependencies:
 
 run:
 	go run \
-		doic/doic.go
+		doic/doic.go \
+		doic/aname_resolve.go \
+		doic/upstream_query.go
 
 stat:
 	mkdir -p bin/
