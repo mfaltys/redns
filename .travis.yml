@@ -1,0 +1,13 @@
+language: go
+
+go:
+  - 1.7
+
+services:
+  - redis-server
+
+install:
+  - make dependencies
+
+script:
+  - make stat
