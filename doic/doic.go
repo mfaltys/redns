@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -28,6 +29,14 @@ var config = Config{}
 func main() {
 	readConf("config.gcfg")
 	initLogger(config.Doic.Loglevel)
+
+	// parse override flags
+	overrideDNSPort := flag.Int("port", config.Doic.DNSPort, "DNS port to bind to.")
+	flag.Parse()
+
+	if *overrideDNSPort != config.Doic.DNSPort {
+		config.Doic.DNSPort = *overrideDNSPort
+	}
 
 	// format the string to be :port
 	fPort := fmt.Sprint(":", config.Doic.DNSPort)
