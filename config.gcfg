@@ -1,0 +1,5 @@
+[doic]
+	loglevel	= "debug"
+[redis]
+	host		= "localhost:6379"
+	password	= ""
