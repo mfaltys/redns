@@ -1,6 +1,6 @@
 [doic]
 	loglevel	= "debug"
-	dnsport		= 8053
+	dnsport		= 53
 	upstreamdns	= "8.8.8.8:53"
 
 [redis]
