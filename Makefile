@@ -9,6 +9,7 @@ doic:
 	$(GOC) doic/*.go
 
 dependencies:
+	go get github.com/miekg/dns
 	go get github.com/unixvoid/glogger
 	go get gopkg.in/gcfg.v1
 
