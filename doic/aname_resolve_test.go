@@ -9,7 +9,7 @@ import (
 
 func TestANameResolve(t *testing.T) {
 	// read in conf up a directory
-	readConf("../config.gcfg")
+	readConf("../deps/testing.config.gcfg")
 
 	m1 := new(dns.Msg)
 	m1.SetQuestion(dns.Fqdn("google.com"), dns.TypeA)

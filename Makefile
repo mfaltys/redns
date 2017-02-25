@@ -28,7 +28,7 @@ test:
 	@$(MAKE) start_test_server || $(MAKE) kill_test_server
 
 start_test_server: stat
-	@bin/doic* & echo $$! > bin/.pid
+	@bin/doic* -port=8053 & echo $$! > bin/.pid
 	go test -v doic/*.go
 	@$(MAKE) kill_test_server
 
