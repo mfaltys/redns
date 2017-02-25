@@ -2,6 +2,7 @@ package main
 
 import (
 	"net"
+	"strings"
 
 	"github.com/miekg/dns"
 	"github.com/unixvoid/glogger"
@@ -26,6 +27,8 @@ func anameresolve(w dns.ResponseWriter, req *dns.Msg) {
 	hostname := req.Question[0].Name
 
 	// send request upstream
+	client := strings.Split(w.RemoteAddr().String(), ":")
+	glogger.Debug.Printf("client: %s\n", client[0])
 	glogger.Debug.Printf("sending request for '%s' upstream\n", hostname)
 	req = upstreamQuery(w, req)
 	w.WriteMsg(req)
