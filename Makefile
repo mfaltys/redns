@@ -11,8 +11,8 @@ doic:
 dependencies:
 
 run:
-	cd doic && go run \
-	doic.go
+	go run \
+		doic/doic.go
 
 stat:
 	mkdir -p bin/
