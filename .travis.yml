@@ -10,4 +10,4 @@ install:
   - make dependencies
 
 script:
-  - make stat
+        - make test --no-print-directory

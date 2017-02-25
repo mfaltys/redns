@@ -26,7 +26,7 @@ type Config struct {
 var config = Config{}
 
 func main() {
-	readConf()
+	readConf("config.gcfg")
 	initLogger(config.Doic.Loglevel)
 
 	// format the string to be :port
@@ -61,9 +61,9 @@ func main() {
 
 }
 
-func readConf() {
+func readConf(location string) {
 	// init the config
-	err := gcfg.ReadFileInto(&config, "config.gcfg")
+	err := gcfg.ReadFileInto(&config, location)
 	if err != nil {
 		panic(fmt.Sprintf("could not load config.gcfg, error: %s\n", err))
 	}

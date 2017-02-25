@@ -20,8 +20,21 @@ run:
 		doic/upstream_query.go
 
 stat:
+	rm -rf bin/
 	mkdir -p bin/
 	$(CGOR) $(GOC) $(GOFLAGS) -o bin/doic-$(GIT_HASH)-linux-amd64 doic/*.go
+
+test:
+	@$(MAKE) start_test_server || $(MAKE) kill_test_server
+
+start_test_server: stat
+	@bin/doic* & echo $$! > bin/.pid
+	go test -v doic/*.go
+	@$(MAKE) kill_test_server
+
+kill_test_server:
+	@kill `cat bin/.pid`
+	@rm -rf bin.pid
 
 install: stat
 	cp bin/doic* /usr/bin/doic
