@@ -5,6 +5,7 @@ overhead plug-and-play approach to implimenting an IOC for organizational or
 personal use.  If you want to track our day-to-day activities, check out our
 [trello board](https://trello.com/b/5KMHrR6L/project-requirement-clicitation-cybr4580).
 
+
 ## Executive Summary
 Many industry malware detection tools (used in the workplace or for personal use)
 are either platform specific, intrusive, or high overhead and need to be
@@ -47,3 +48,20 @@ projects [travis page](https://travis-ci.org/mfaltys/doic).
 |Procrastination (12) | 3 | 4 | I always pull through with enough coffee |
 |Unknown DNS issues (12) | 3 | 4 | If clients try an unsupported DNS call it will not resolve but instead return a DNS SERVFAIL and timeout if not handled correctly. I dont know what I dont know |
 |Unit testing (8) | 2 | 4 | Its difficut to unit test DNS calls in go, feature testing is much easier. It could have unknown negative side effects|
+
+
+## Application Requirements
+
+### User Stories
+- As an administrator, I want to add new blacklisted domains to keep my clients
+  safe.
+- As an end-user, I want non-intrusive malware indicators so I am not
+  distracted.
+- As an administrator, I want to be alerted of malicious intent to keep my users
+  safe.
+- As an administrator, I want to follow traffic on a per-ip basis to track down
+  malicious software swiftly.
+- As an organizational manager, I want an IOC deployed rapidly to cut down on
+  man-hour costs.
+
+### Use Cases
