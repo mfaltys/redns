@@ -34,6 +34,16 @@ Doic will continue to be fast and reliable, DNS requests passing through the
 tool add a negligible amount of time to the request and its probably faster than
 your current firewall implimented DNS server. Doic is tested for errors with
 unit tests and function test being constantly ran against the code over on our
-projects [travis](https://travis-ci.org/mfaltys/doic) page.
+projects [travis page](https://travis-ci.org/mfaltys/doic).
 
 ![granttpro is not free](https://s3.amazonaws.com/unixvoid-blog/trickedbyabusiness.png)
+
+## Project Risks
+
+|Risk name | Impact | Likelihood | Description |
+|----------|--------|------------|-------------|
+|Domain list availability (16) | 8 | 2 | If open doimain lists are hard to get a hold of proving malicious intent becomes difficult |
+|Alerting system (9) | 3 | 3 | Finding a way to alert users could take a fair amount of time with one developer |
+|Procrastination (12) | 3 | 4 | I always pull through with enough coffee |
+|Unknown DNS issues (12) | 3 | 4 | If clients try an unsupported DNS call it will not resolve but instead return a DNS SERVFAIL and timeout if not handled correctly. I dont know what I dont know |
+|Unit testing (8) | 2 | 4 | Its difficut to unit test DNS calls in go, feature testing is much easier. It could have unknown negative side effects|
