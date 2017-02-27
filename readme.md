@@ -37,7 +37,7 @@ your current firewall implimented DNS server. Doic is tested for errors with
 unit tests and function test being constantly ran against the code over on our
 projects [travis page](https://travis-ci.org/mfaltys/doic).
 
-![granttpro is not free](https://s3.amazonaws.com/unixvoid-blog/trickedbyabusiness.png)
+![granttpro is not free](https://s3.amazonaws.com/unixvoid-blog/trickedbyabusiness2.png)
 
 ## Project Risks
 
@@ -65,3 +65,14 @@ projects [travis page](https://travis-ci.org/mfaltys/doic).
   man-hour costs.
 
 ### Use Cases
+![doic use cases](https://s3.amazonaws.com/unixvoid-blog/doicusecase.png)
+
+### Used Technologies
+|Resource  | Dr. Hale needed? | Investigating Team member | Description |
+|-------------------|---------|---------------------------|-------------|
+|Golang | No | Matthew | Go is an open source programming language that makes it easy to build simple, reliable, and efficient software. |
+|Redis | No | Matthew | Redis is an open source (BSD licensed), in-memory data structure store, used as a database, cache and message broker. |
+|Golang DNS library | No | Matthew| miekg/dns is an open source DNS library for golang [used by many leaders in the field](https://github.com/miekg/dns#users) |
+|Travis CI | No | Matthew | Travis is a CI tool used by many industry leaders to test and release code. It is free to use for open-source projects. |
+
+We have also set up a [trello board](https://trello.com/b/5KMHrR6L/project-requirement-clicitation-cybr4580) for sprint based activity tracking/planning.
