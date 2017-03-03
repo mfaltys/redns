@@ -65,7 +65,7 @@ projects [travis page](https://travis-ci.org/mfaltys/doic).
   man-hour costs.
 
 ### Use Cases
-![doic use cases](https://s3.amazonaws.com/unixvoid-blog/doicusecase.png)
+![doic use cases](https://s3.amazonaws.com/unixvoid-blog/doic_use_case.png)
 
 ### Used Technologies
 |Resource  | Dr. Hale needed? | Investigating Team member | Description |
