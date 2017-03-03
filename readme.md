@@ -62,7 +62,18 @@ projects [travis page](https://travis-ci.org/mfaltys/doic).
 - As an administrator, I want to follow traffic on a per-ip basis to track down
   malicious software swiftly.
 - As an organizational manager, I want an indicator of compromise(IOC) deployed rapidly to cut down on
-  man-hour costs.
+  man-hour costs.  
+
+### Acceptance Criteria
+- Administrator can add blacklisted domain databases via supplied data input
+  tool
+- Administrator can add a single blacklisted domain via API  
+- Administrator can add a batch of blacklisted domain via API  
+- Administrator will be alerted of an attempted malicious domain via Email  
+- Administrator will be able to follow traffic on a per-ip basis via HTTP API  
+- Administrator will be able to set up doic swiftly via sane default configs  
+- End-user will be able to browse freely without interruptions/client pop-ups  
+- Organization manager will be able to obtain doic free of cost  
 
 ### Use Cases
 ![doic use cases](https://s3.amazonaws.com/unixvoid-blog/doic_use_case.png)
