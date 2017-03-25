@@ -11,6 +11,11 @@ import (
 )
 
 func upstreamQuery(w dns.ResponseWriter, req *dns.Msg) *dns.Msg {
+	// TODO
+	//   - check hostname against malicious domain list
+	//   - check ip against malicious domain list
+	//   - handler when malicious address/domain is detected
+
 	transport := "udp"
 	if _, ok := w.RemoteAddr().(*net.TCPAddr); ok {
 		transport = "tcp"
