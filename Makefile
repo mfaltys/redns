@@ -20,13 +20,28 @@ run:
 		doic/upstream_query.go \
 		--port=8053
 
+run_client:
+	go run \
+		doic_cli/doic_cli.go
+
 stat:
 	rm -rf bin/
 	mkdir -p bin/
 	$(CGOR) $(GOC) $(GOFLAGS) -o bin/doic-$(GIT_HASH)-linux-amd64 doic/*.go
 
+stat_cli:
+	rm -rf bin/
+	mkdir -p bin/
+	$(CGOR) $(GOC) $(GOFLAGS) -o bin/doic_cli doic_cli/*.go
+
 test:
 	@$(MAKE) start_test_server || $(MAKE) kill_test_server
+
+test_cli: clean stat_cli
+	@echo "LISTING CLIENTS"
+	bin/doic_cli list
+	@echo "GETTING 127.0.0.1 HISTORY"
+	bin/doic_cli get 127.0.0.1
 
 start_test_server: stat
 	@bin/doic* -port=8053 & echo $$! > bin/.pid
