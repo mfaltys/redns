@@ -39,6 +39,7 @@ test:
 
 test_cli: clean stat_cli
 	@echo "LISTING CLIENTS"
+	@echo ""
 	bin/doic_cli list
 	@echo "GETTING 127.0.0.1 HISTORY"
 	bin/doic_cli get 127.0.0.1
