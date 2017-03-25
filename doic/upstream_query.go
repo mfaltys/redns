@@ -27,8 +27,16 @@ func upstreamQuery(w dns.ResponseWriter, req *dns.Msg) *dns.Msg {
 func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client) {
 	hostname := req.Question[0].Name
 
-	// send request upstream
 	client := strings.Split(w.RemoteAddr().String(), ":")
+
+	// add client entry to redis
+	err := redisClient.SAdd(client[0], hostname).Err()
+	if err != nil {
+		glogger.Error.Printf("error adding hostname: '%s' for client: '%s'\n", hostname, client)
+		glogger.Error.Printf("%s", err)
+	}
+
+	// send request upstream
 	glogger.Debug.Printf("client: %s\n", client[0])
 	glogger.Debug.Printf("sending request for '%s' upstream\n", hostname)
 	req = upstreamQuery(w, req)
