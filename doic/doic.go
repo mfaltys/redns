@@ -9,6 +9,7 @@ import (
 	"github.com/miekg/dns"
 	"github.com/unixvoid/glogger"
 	"gopkg.in/gcfg.v1"
+	"gopkg.in/redis.v5"
 )
 
 type Config struct {
@@ -30,6 +31,20 @@ func main() {
 	readConf("config.gcfg")
 	initLogger(config.Doic.Loglevel)
 
+	// initialize redis connection
+	redisClient, err := initRedisConnection()
+	if err != nil {
+		glogger.Debug.Println("redis conneciton cannot be made, trying again in 1 second")
+		redisClient, err = initRedisConnection()
+		if err != nil {
+			glogger.Error.Println("redis connection cannot be made.")
+			os.Exit(1)
+		}
+	} else {
+		glogger.Debug.Println("connection to redis succeeded.")
+		glogger.Info.Println("link to redis on", config.Redis.Host)
+	}
+
 	// parse override flags
 	overrideDNSPort := flag.Int("port", config.Doic.DNSPort, "DNS port to bind to.")
 	flag.Parse()
@@ -49,7 +64,7 @@ func main() {
 		switch req.Question[0].Qtype {
 		case 1:
 			glogger.Debug.Println("'A' request recieved, continuing")
-			go anameresolve(w, req)
+			go anameresolve(w, req, redisClient)
 			break
 		case 5:
 			glogger.Debug.Println("'CNAME' request detected: TODO")
@@ -89,4 +104,15 @@ func initLogger(logLevel string) {
 	} else {
 		glogger.LogInit(ioutil.Discard, ioutil.Discard, ioutil.Discard, os.Stderr)
 	}
+}
+
+func initRedisConnection() (*redis.Client, error) {
+	// initialize redis connection
+	client := redis.NewClient(&redis.Options{
+		Addr:     config.Redis.Host,
+		Password: config.Redis.Password,
+		DB:       0,
+	})
+	_, redisErr := client.Ping().Result()
+	return client, redisErr
 }

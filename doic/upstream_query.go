@@ -6,6 +6,7 @@ import (
 
 	"github.com/miekg/dns"
 	"github.com/unixvoid/glogger"
+	"gopkg.in/redis.v5"
 )
 
 func upstreamQuery(w dns.ResponseWriter, req *dns.Msg) *dns.Msg {
@@ -23,7 +24,7 @@ func upstreamQuery(w dns.ResponseWriter, req *dns.Msg) *dns.Msg {
 	return resp
 }
 
-func anameresolve(w dns.ResponseWriter, req *dns.Msg) {
+func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client) {
 	hostname := req.Question[0].Name
 
 	// send request upstream

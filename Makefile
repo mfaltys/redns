@@ -12,12 +12,13 @@ dependencies:
 	go get github.com/miekg/dns
 	go get github.com/unixvoid/glogger
 	go get gopkg.in/gcfg.v1
+	go get gopkg.in/redis.v5
 
 run:
 	go run \
 		doic/doic.go \
-		doic/aname_resolve.go \
-		doic/upstream_query.go
+		doic/upstream_query.go \
+		--port=8053
 
 stat:
 	rm -rf bin/
