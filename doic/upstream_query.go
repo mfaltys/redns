@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net"
 	"strings"
 
@@ -29,10 +30,16 @@ func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client)
 
 	client := strings.Split(w.RemoteAddr().String(), ":")
 
-	// add client entry to redis
-	err := redisClient.SAdd(client[0], hostname).Err()
+	// add client to redis client:list
+	err := redisClient.SAdd("client:list", client[0]).Err()
 	if err != nil {
-		glogger.Error.Printf("error adding hostname: '%s' for client: '%s'\n", hostname, client)
+		glogger.Error.Printf("error adding client: '%s' to 'client:list'", client[0])
+	}
+
+	// add client history entry to redis
+	err = redisClient.SAdd(fmt.Sprintf("client:%s", client[0]), hostname).Err()
+	if err != nil {
+		glogger.Error.Printf("error adding hostname: '%s' for client: 'client:%s'\n", hostname, client)
 		glogger.Error.Printf("%s", err)
 	}
 
