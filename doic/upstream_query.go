@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net"
 	"strings"
+	"time"
 
 	"github.com/miekg/dns"
 	"github.com/unixvoid/glogger"
@@ -32,8 +33,9 @@ func upstreamQuery(w dns.ResponseWriter, req *dns.Msg) *dns.Msg {
 
 func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client) {
 	hostname := req.Question[0].Name
-
 	client := strings.Split(w.RemoteAddr().String(), ":")
+	t := time.Now()
+	timestamp := fmt.Sprintf("%s", t.Format("2006/01/02 15:04:05"))
 
 	// add client to redis client:list
 	err := redisClient.SAdd("client:list", client[0]).Err()
@@ -41,8 +43,7 @@ func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client)
 		glogger.Error.Printf("error adding client: '%s' to 'client:list'", client[0])
 	}
 
-	// add client history entry to redis
-	err = redisClient.SAdd(fmt.Sprintf("client:%s", client[0]), hostname).Err()
+	err = redisClient.SAdd(fmt.Sprintf("client:%s", client[0]), fmt.Sprintf("%s :: %s", timestamp, hostname)).Err()
 	if err != nil {
 		glogger.Error.Printf("error adding hostname: '%s' for client: 'client:%s'\n", hostname, client)
 		glogger.Error.Printf("%s", err)

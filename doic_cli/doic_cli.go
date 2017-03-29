@@ -110,6 +110,9 @@ func getClientHistory(redisClient *redis.Client, client string) {
 	}
 
 	fmt.Printf("HISTORY for '%s':\n", client)
-	fmt.Printf("%s\n", clientHistory)
+	//fmt.Printf("%s\n", clientHistory)
+	for i := 0; i < len(clientHistory); i++ {
+		fmt.Printf("  %s\n", clientHistory[i])
+	}
 	//glogger.Debug.Printf("%s", clientHistory)
 }
