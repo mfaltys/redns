@@ -66,4 +66,4 @@ generate_domain_list:
 
 clean:
 	rm -rf bin/
-	rm domains
+	rm -f domains
