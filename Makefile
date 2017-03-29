@@ -64,6 +64,9 @@ generate_domain_list:
 	./getdomains.sh
 	rm getdomains.sh
 
+populate_redis: generate_domain_list
+	bash domains > /dev/null
+
 clean:
 	rm -rf bin/
 	rm -f domains

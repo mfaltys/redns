@@ -22,5 +22,10 @@ rm domains.nohyphen
 # remove empty lines
 sed -i '/^$/d' domains.noport
 
+# add redis command to beginning of file
+awk '{print "redis-cli SADD blacklist:domain " $0;}' domains.noport > domains.redis
+rm domains.noport
+
 # rename file
-mv domains.noport domains
+mv domains.redis domains
+chmod +x domains

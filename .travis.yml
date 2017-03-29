@@ -10,5 +10,6 @@ install:
   - make dependencies
 
 script:
+        - make populate_redis
         - make test --no-print-directory
         - make test_cli
