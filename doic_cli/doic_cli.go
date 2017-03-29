@@ -104,7 +104,8 @@ func listClients(redisClient *redis.Client) {
 
 func getClientHistory(redisClient *redis.Client, client string) {
 	// get client:list from redis db
-	clientHistory, err := redisClient.SMembers(fmt.Sprintf("client:%s", client)).Result()
+	//clientHistory, err := redisClient.SMembers(fmt.Sprintf("client:%s", client)).Result()
+	clientHistory, err := redisClient.LRange(fmt.Sprintf("client:%s", client), 0, -1).Result()
 	if err != nil {
 		glogger.Error.Printf("error while getting '%s' history: %s", client, err)
 	}
