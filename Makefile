@@ -58,5 +58,12 @@ kill_test_server:
 install: stat
 	cp bin/doic* /usr/bin/doic
 
+generate_domain_list:
+	cp deps/getdomains.sh .
+	chmod +x getdomains.sh
+	./getdomains.sh
+	rm getdomains.sh
+
 clean:
 	rm -rf bin/
+	rm domains
