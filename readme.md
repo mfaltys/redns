@@ -8,4 +8,5 @@ personal use.  If you want to track our day-to-day activities, check out our
 
 ## Documentation  
 You can find our documentation over on [github pages](https://mfaltys.github.io/doic_docs)  
-* [Milestone 1](https://mfaltys.github.io/doic_docs/milestone.1/)
+* [Milestone 1](https://mfaltys.github.io/doic_docs/milestone.1/)  
+* [Milestone 2](https://mfaltys.github.io/doic_docs/milestone.2/)
