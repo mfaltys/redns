@@ -1,4 +1,5 @@
 language: go
+sudo: required
 
 go:
   - 1.7
@@ -7,15 +8,25 @@ services:
   - redis-server
 
 install:
+  # pull go dependencies
   - make dependencies
 
 script:
-        - make populate_redis
-        - make test --no-print-directory
-        - make test_cli
+  # add blacklisted domains to redis
+  - make populate_redis
+  # run doic go-tests
+  - make test --no-print-directory
+  # test doic_cli
+  - make test_cli
 
 after_success:
-        - make stat
-        - curl -i --form sec=$BINDER_SEC --form file=@`ls bin/doic*` --form path=doic/ --form filename=doic-latest-linux-amd64 https://cryo.unixvoid.com/upload
-        - make clean stat_cli
-        - curl -i --form sec=$BINDER_SEC --form file=@`ls bin/doic*` --form path=doic/ --form filename=doic_cli-latest-linux-amd64 https://cryo.unixvoid.com/upload
+  ### doic
+  # statically compile doic
+  - make stat
+  # upload doic to binder
+  - curl -i --form sec=$BINDER_SEC --form file=@`ls bin/doic*` --form path=doic/ --form filename=doic-latest-linux-amd64 https://cryo.unixvoid.com/upload
+  ### doic_cli
+  # statically compile doic_cli
+  - make clean stat_cli
+  # upload doic_cli to binder
+  - curl -i --form sec=$BINDER_SEC --form file=@`ls bin/doic*` --form path=doic/ --form filename=doic_cli-latest-linux-amd64 https://cryo.unixvoid.com/upload
