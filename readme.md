@@ -30,7 +30,7 @@ from source.
 
 ### Configuration
 Currently a work in progress as the configuration is changing often in the early
-stages (pre-release) of doic.
+stages (pre-release) of doic.  
 [Configuration docs](https://mfaltys.github.io/doic_docs/configuration/)  
 
 
