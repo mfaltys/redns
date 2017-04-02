@@ -10,9 +10,9 @@ personal use.  If you want to track our day-to-day activities, check out our
 ### Getting precompiled binaries
 This project pushes up a binary on every project commit and tag.
 You can find these binaries in the following locations (note we only pre compile
-for 64 bit linux architectures):
-[browse binaries](https://cryo.unixvoid.com/bin/doic/)
-[latest doic](https://cryo.unixvoid.com/bin/doic/doic-latest-linux-amd64)
+for 64 bit linux architectures):  
+[browse binaries](https://cryo.unixvoid.com/bin/doic/)  
+[latest doic](https://cryo.unixvoid.com/bin/doic/doic-latest-linux-amd64)  
 [latest doic_cli](https://cryo.unixvoid.com/bin/doic/doic_cli-latest-linux-amd64)
 
 ### Compiling from source
