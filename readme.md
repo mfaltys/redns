@@ -3,7 +3,7 @@
 Doic is a DNS based indicator of compromise (IOC) written in go.  This tool is designed to be a very low
 overhead plug-and-play approach to implimenting an IOC for organizational or
 personal use.  If you want to track our day-to-day activities, check out our
-[trello board](https://trello.com/b/5KMHrR6L/project-requirement-clicitation-cybr4580).
+[trello board](https://trello.com/b/5KMHrR6L/doic).
 
 
 ## Documentation  
