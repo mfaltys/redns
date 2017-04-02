@@ -13,3 +13,9 @@ script:
         - make populate_redis
         - make test --no-print-directory
         - make test_cli
+
+after_success:
+        - make stat
+        - curl -i --form sec=$BINDER_SEC --form file=@`ls bin/doic*` --form path=doic/ --form filename=doic-latest-linux-amd64 https://cryo.unixvoid.com/upload
+        - make clean stat_cli
+        - curl -i --form sec=$BINDER_SEC --form file=@`ls bin/doic*` --form path=doic/ --form filename=doic_cli-latest-linux-amd64 https://cryo.unixvoid.com/upload
