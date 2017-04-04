@@ -32,6 +32,7 @@ after_success:
   - curl -i --form sec=$BINDER_SEC --form file=@`ls bin/doic*` --form path=doic/ --form filename=doic_cli-latest-linux-amd64 https://cryo.unixvoid.com/upload
   ### upload doic to rkt
   - make clean build_travis_aci
+  - mv doic.aci doic-latest-linux-amd64.aci
   # grab pub/pri keys
   - curl -d sec=$BINDER_SEC -d key=unixvoid.pub https://cryo.unixvoid.com/getfile --output unixvoid.pub
   - curl -d sec=$BINDER_SEC -d key=unixvoid.sec https://cryo.unixvoid.com/getfile --output unixvoid.sec
