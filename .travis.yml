@@ -31,7 +31,6 @@ after_success:
   # upload doic_cli to binder
   - curl -i --form sec=$BINDER_SEC --form file=@`ls bin/doic*` --form path=doic/ --form filename=doic_cli-latest-linux-amd64 https://cryo.unixvoid.com/upload
   ### upload doic to rkt
-  - rm -rf .gnupg/
   - make clean build_travis_aci
   - mv doic.aci doic-latest-linux-amd64.aci
   # grab pub/pri keys
@@ -39,6 +38,7 @@ after_success:
   - curl -d sec=$BINDER_SEC -d key=unixvoid.sec https://cryo.unixvoid.com/getfile --output unixvoid.sec
   # sign aci
   - cp deps/sign.sh . && chmod +x sign.sh
+  - ls -alh
   - ./sign.sh $GPG_SEC
   # upload aci to binder
   - curl -i --form sec=$BINDER_SEC --form file=@doic-latest-linux-amd64.aci --form path=rkt/doic/ https://cryo.unixvoid.com/upload
