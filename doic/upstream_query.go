@@ -33,8 +33,23 @@ func upstreamQuery(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client
 
 	// handle blacklisted domain case
 	if exists {
-		// TODO add 'nonexistent' response to client
+		// TODO add option to return 'nonexistent' or a custom upstream domain
+		//   this could be a custom page hosted by the server iteslf...
 		glogger.Debug.Printf("intercepted blacklisted domain '%s' on client '%s'\n", hostname, client[0])
+
+		// return rcode3 to client (nonexist)
+		rr := new(dns.A)
+		rr.Hdr = dns.RR_Header{Name: hostname, Rrtype: dns.TypeA, Class: dns.ClassINET, Ttl: 1}
+		rr.A = net.ParseIP("")
+
+		// craft reply
+		rep := new(dns.Msg)
+		rep.SetReply(req)
+		rep.SetRcode(req, dns.RcodeNameError)
+		rep.Answer = append(rep.Answer, rr)
+
+		// send it
+		w.WriteMsg(rep)
 	}
 
 	transport := "udp"
@@ -81,5 +96,7 @@ func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client)
 	glogger.Debug.Printf("sending request for '%s' upstream\n", hostname)
 	req = upstreamQuery(w, req, redisClient)
 	// write response back from client
-	w.WriteMsg(req)
+	if req != nil {
+		w.WriteMsg(req)
+	}
 }
