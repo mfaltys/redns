@@ -68,6 +68,26 @@ generate_domain_list:
 populate_redis: generate_domain_list
 	bash domains > /dev/null
 
+prep_aci: stat
+	mkdir -p doic-layout/rootfs/
+	cp deps/manifest.json doic-layout/manifest
+	cp bin/doic-* doic-layout/rootfs/doic
+	cp config.gcfg doic-layout/rootfs/
+
+build_aci: prep_aci
+	actool build doic-layout doic.aci
+	@echo "doic.aci built"
+
+build_travis_aci: prep_aci
+	wget https://github.com/appc/spec/releases/download/v0.8.7/appc-v0.8.7.tar.gz
+	tar -zxf appc-v0.8.7.tar.gz
+	# build image
+	appc-v0.8.7/actool build doic-layout doic.aci && \
+	rm -rf appc-v0.8.7*
+	@echo "doic.aci built"
+
 clean:
 	rm -rf bin/
+	rm -rf doic-layout/
+	rm -f doic.aci
 	rm -f domains

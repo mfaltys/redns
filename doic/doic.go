@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"time"
 
 	"github.com/miekg/dns"
 	"github.com/unixvoid/glogger"
@@ -14,9 +15,10 @@ import (
 
 type Config struct {
 	Doic struct {
-		Loglevel    string
-		DNSPort     int
-		UpstreamDNS string
+		Loglevel       string
+		DNSPort        int
+		UpstreamDNS    string
+		BootstrapDelay time.Duration
 	}
 
 	Redis struct {
@@ -35,6 +37,7 @@ func main() {
 	redisClient, err := initRedisConnection()
 	if err != nil {
 		glogger.Debug.Println("redis conneciton cannot be made, trying again in 1 second")
+		time.Sleep(config.Doic.BootstrapDelay * time.Second)
 		redisClient, err = initRedisConnection()
 		if err != nil {
 			glogger.Error.Println("redis connection cannot be made.")

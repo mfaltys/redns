@@ -30,3 +30,14 @@ after_success:
   - make clean stat_cli
   # upload doic_cli to binder
   - curl -i --form sec=$BINDER_SEC --form file=@`ls bin/doic*` --form path=doic/ --form filename=doic_cli-latest-linux-amd64 https://cryo.unixvoid.com/upload
+  ### upload doic to rkt
+  - make clean build_travis_aci
+  # grab pub/pri keys
+  - curl -d sec=$BINDER_SEC -d key=unixvoid.pub https://cryo.unixvoid.com/getfile --output unixvoid.pub
+  - curl -d sec=$BINDER_SEC -d key=unixvoid.sec https://cryo.unixvoid.com/getfile --output unixvoid.sec
+  # sign aci
+  - cp deps/sign.sh . && chmod +x sign.sh
+  - ./sign.sh $GPG_SEC
+  # upload aci to binder
+  - curl -i --form sec=$BINDER_SEC --form file=@doic-latest-linux-amd64.aci --form path=rkt/doic/ https://cryo.unixvoid.com/upload
+  - curl -i --form sec=$BINDER_SEC --form file=@doic-latest-linux-amd64.aci.asc --form path=rkt/doic/ https://cryo.unixvoid.com/upload

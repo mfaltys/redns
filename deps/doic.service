@@ -1,0 +1,16 @@
+[Unit]
+Description=doic DNS IOC
+
+[Service]
+ExecStart=/usr/bin/rkt run \
+	--port=dns-tcp:8053 \
+	--port=dns-udp:8053 \
+        unixvoid.com/doic
+
+#[Service]
+#ExecStart=/usr/bin/rkt run \
+#	--net=host \
+#        unixvoid.com/doic
+
+[Install]
+WantedBy=multi-user.target

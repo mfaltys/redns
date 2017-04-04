@@ -1,0 +1,44 @@
+{
+    "acKind": "ImageManifest",
+    "acVersion": "0.7.1",
+    "name": "unixvoid.com/doic",
+    "labels": [
+        {
+            "name": "version",
+            "value": "latest"
+        },
+        {
+            "name": "arch",
+            "value": "amd64"
+        },
+        {
+            "name": "os",
+            "value": "linux"
+        }
+    ],
+    "app": {
+        "user": "root",
+        "group": "root",
+        "exec": [
+            "/doic"
+        ],
+        "ports": [
+        {
+            "name": "dns-tcp",
+            "protocol": "tcp",
+            "port": 53
+        },
+        {
+            "name": "dns-udp",
+            "protocol": "udp",
+            "port": 53
+        }
+        ]
+    },
+    "annotations": [
+        {
+        "name": "authors",
+        "value": "Matthew Faltys <mfaltys@gmail.com>"
+    }
+    ]
+}
