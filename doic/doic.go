@@ -73,7 +73,8 @@ func main() {
 			glogger.Debug.Println("'CNAME' request detected: TODO")
 			break
 		case 28:
-			glogger.Debug.Println("'AAAA' request detected: TODO")
+			glogger.Debug.Println("'AAAA' request recieved, continuing")
+			go aaaanameresolve(w, req, redisClient)
 			break
 		default:
 			glogger.Debug.Printf("non supported '%d' request detected. skipping", req.Question[0].Qtype)

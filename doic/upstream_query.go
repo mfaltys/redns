@@ -84,7 +84,7 @@ func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client)
 	} else {
 		// send request upstream
 		glogger.Debug.Printf("client: %s\n", client[0])
-		glogger.Debug.Printf("sending request for '%s' upstream\n", hostname)
+		glogger.Debug.Printf("sending 'A' request for '%s' upstream\n", hostname)
 
 		req = upstreamQuery(w, req, redisClient)
 		// write response back from client
@@ -92,7 +92,21 @@ func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client)
 			w.WriteMsg(req)
 		} else {
 			glogger.Error.Println("Error getting response from upstream")
-			glogger.Error.Println(err)
 		}
+	}
+}
+
+func aaaanameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client) {
+	// parse hostname
+	hostname := req.Question[0].Name
+
+	glogger.Debug.Printf("sending 'AAAA' request for '%s' upstream\n", hostname)
+
+	req = upstreamQuery(w, req, redisClient)
+	// write response back from client
+	if req != nil {
+		w.WriteMsg(req)
+	} else {
+		glogger.Error.Println("Error getting response from upstream")
 	}
 }
