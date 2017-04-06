@@ -70,7 +70,7 @@ func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client)
 		// return rcode3 to client (nonexist)
 		rr := new(dns.A)
 		rr.Hdr = dns.RR_Header{Name: hostname, Rrtype: dns.TypeA, Class: dns.ClassINET, Ttl: 1}
-		rr.A = net.ParseIP("")
+		rr.A = net.ParseIP("127.0.0.1")
 
 		// craft reply
 		rep := new(dns.Msg)
@@ -80,7 +80,6 @@ func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client)
 
 		// send it
 		w.WriteMsg(rep)
-		return
 	} else {
 		// send request upstream
 		glogger.Debug.Printf("client: %s\n", client[0])
