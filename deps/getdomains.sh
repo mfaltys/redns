@@ -28,4 +28,5 @@ rm domains.noport
 
 # rename file
 mv domains.redis domains
+echo "redis-cli SADD blacklist:domain not.a.domain.biz" >> domains
 chmod +x domains
