@@ -74,21 +74,12 @@ func main() {
 	externalIp := getoutboundIP()
 	glogger.Info.Printf("external ip: %s\n", externalIp)
 
-	// set up router for static pages
-	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		// func here shillz(w, r, client)
-		statichandler(w, r)
-	}).Methods("GET")
-
-	// serve up the web view
-	glogger.Info.Printf("web frontend running on %d\n", config.Doic.APIPort)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", config.Doic.APIPort), router))
+	go endpointListener()
 
 	dns.HandleFunc(".", func(w dns.ResponseWriter, req *dns.Msg) {
 		switch req.Question[0].Qtype {
 		case 1:
-			glogger.Debug.Println("'A' request recieved, continuing")
+			//glogger.Debug.Println("'A' request recieved, continuing")
 			go anameresolve(w, req, redisClient)
 			break
 		case 5:
@@ -99,7 +90,7 @@ func main() {
 			go aaaanameresolve(w, req, redisClient)
 			break
 		default:
-			glogger.Debug.Printf("non supported '%d' request detected. skipping", req.Question[0].Qtype)
+			//glogger.Debug.Printf("non supported '%d' request detected. skipping", req.Question[0].Qtype)
 			break
 		}
 	})
@@ -141,6 +132,18 @@ func initRedisConnection() (*redis.Client, error) {
 	})
 	_, redisErr := client.Ping().Result()
 	return client, redisErr
+}
+func endpointListener() {
+	// set up router for static pages
+	router := mux.NewRouter().StrictSlash(true)
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		// func here shillz(w, r, client)
+		statichandler(w, r)
+	}).Methods("GET")
+
+	// serve up the web view
+	glogger.Info.Printf("web frontend running on %d\n", config.Doic.APIPort)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", config.Doic.APIPort), router))
 }
 
 // Get preferred outbound ip of this machine

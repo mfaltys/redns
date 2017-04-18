@@ -1,7 +1,7 @@
 [doic]
   loglevel        = "debug"
   dnsport         = 53
-  apiport         = 8080
+  apiport         = 80
   upstreamdns     = "8.8.8.8:53"
   bootstrapdelay  = 1
   redirectsite    = "127.0.0.1"

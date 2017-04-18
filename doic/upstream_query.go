@@ -30,9 +30,9 @@ func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client)
 	// parse hostname
 	hostname := req.Question[0].Name
 
-	glogger.Debug.Println(req.MsgHdr.String())
-	glogger.Debug.Println(req.Question[0].String())
-	glogger.Debug.Println(req.Extra[0].String())
+	//glogger.Debug.Println(req.MsgHdr.String())
+	//glogger.Debug.Println(req.Question[0].String())
+	//glogger.Debug.Println(req.Extra[0].String())
 
 	// parse client ip
 	client := strings.Split(w.RemoteAddr().String(), ":")
@@ -81,7 +81,8 @@ func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client)
 		// craft reply
 		rep := new(dns.Msg)
 		rep.SetReply(req)
-		rep.SetRcode(req, dns.RcodeNameError)
+		rep.SetRcode(req, dns.RcodeSuccess)
+		//rep.SetRcode(req, dns.RcodeNameError)
 		rep.Answer = append(rep.Answer, rr)
 
 		// send it
@@ -105,13 +106,19 @@ func aaaanameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Clie
 	// parse hostname
 	hostname := req.Question[0].Name
 
-	glogger.Debug.Printf("sending 'AAAA' request for '%s' upstream\n", hostname)
+	// return NOERROR and empty body to client (no ipv6 address exists, try ipv4)
+	// TODO logic to actually check if address exists
+	rr := new(dns.AAAA)
+	rr.Hdr = dns.RR_Header{Name: hostname, Rrtype: dns.TypeAAAA, Class: dns.ClassINET, Ttl: 1}
+	rr.AAAA = net.ParseIP("")
 
-	req = upstreamQuery(w, req, redisClient)
-	// write response back from client
-	if req != nil {
-		w.WriteMsg(req)
-	} else {
-		glogger.Error.Println("Error getting response from upstream")
-	}
+	// craft reply
+	rep := new(dns.Msg)
+	rep.SetReply(req)
+	rep.SetRcode(req, dns.RcodeSuccess)
+	//rep.SetRcode(req, dns.RcodeNameError)
+	rep.Answer = append(rep.Answer, rr)
+
+	// send it
+	w.WriteMsg(rep)
 }
