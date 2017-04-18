@@ -30,6 +30,10 @@ func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client)
 	// parse hostname
 	hostname := req.Question[0].Name
 
+	glogger.Debug.Println(req.MsgHdr.String())
+	glogger.Debug.Println(req.Question[0].String())
+	glogger.Debug.Println(req.Extra[0].String())
+
 	// parse client ip
 	client := strings.Split(w.RemoteAddr().String(), ":")
 
@@ -66,11 +70,13 @@ func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client)
 		// TODO add option to return 'nonexistent' or a custom upstream domain
 		//   this could be a custom page hosted by the server iteslf...
 		glogger.Debug.Printf("intercepted blacklisted domain '%s' on client '%s'\n", hostname, client[0])
+		externalIp := getoutboundIP()
 
 		// return rcode3 to client (nonexist)
 		rr := new(dns.A)
 		rr.Hdr = dns.RR_Header{Name: hostname, Rrtype: dns.TypeA, Class: dns.ClassINET, Ttl: 1}
-		rr.A = net.ParseIP("127.0.0.1")
+		//rr.A = net.ParseIP("127.0.0.1")
+		rr.A = net.ParseIP(externalIp)
 
 		// craft reply
 		rep := new(dns.Msg)

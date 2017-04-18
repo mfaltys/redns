@@ -4,9 +4,14 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"log"
+	"net"
+	"net/http"
 	"os"
+	"strings"
 	"time"
 
+	"github.com/gorilla/mux"
 	"github.com/miekg/dns"
 	"github.com/unixvoid/glogger"
 	"gopkg.in/gcfg.v1"
@@ -17,8 +22,10 @@ type Config struct {
 	Doic struct {
 		Loglevel       string
 		DNSPort        int
+		APIPort        int
 		UpstreamDNS    string
 		BootstrapDelay time.Duration
+		RedirectSite   string
 	}
 
 	Redis struct {
@@ -62,6 +69,21 @@ func main() {
 	udpServer := &dns.Server{Addr: fPort, Net: "udp"}
 	tcpServer := &dns.Server{Addr: fPort, Net: "tcp"}
 	glogger.Info.Println("started server on", config.Doic.DNSPort)
+
+	// grab external ip for debugging
+	externalIp := getoutboundIP()
+	glogger.Info.Printf("external ip: %s\n", externalIp)
+
+	// set up router for static pages
+	router := mux.NewRouter().StrictSlash(true)
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		// func here shillz(w, r, client)
+		statichandler(w, r)
+	}).Methods("GET")
+
+	// serve up the web view
+	glogger.Info.Printf("web frontend running on %d\n", config.Doic.APIPort)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", config.Doic.APIPort), router))
 
 	dns.HandleFunc(".", func(w dns.ResponseWriter, req *dns.Msg) {
 		switch req.Question[0].Qtype {
@@ -119,4 +141,22 @@ func initRedisConnection() (*redis.Client, error) {
 	})
 	_, redisErr := client.Ping().Result()
 	return client, redisErr
+}
+
+// Get preferred outbound ip of this machine
+func getoutboundIP() string {
+	conn, err := net.Dial("udp", "8.8.8.8:80")
+	if err != nil {
+		glogger.Error.Println(err)
+	}
+	defer conn.Close()
+
+	localAddr := conn.LocalAddr().String()
+	idx := strings.LastIndex(localAddr, ":")
+
+	return localAddr[0:idx]
+}
+
+func statichandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "hello warld")
 }

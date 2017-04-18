@@ -12,6 +12,7 @@ doic:
 dependencies:
 	go get github.com/miekg/dns
 	go get github.com/unixvoid/glogger
+	go get github.com/gorilla/mux
 	go get gopkg.in/gcfg.v1
 	go get gopkg.in/redis.v5
 

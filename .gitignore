@@ -1,4 +1,5 @@
+*.aci
+*.swp
 bin/
 domains
-*.aci
 doic-layout/
