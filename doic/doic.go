@@ -57,10 +57,14 @@ func main() {
 
 	// parse override flags
 	overrideDNSPort := flag.Int("port", config.Doic.DNSPort, "DNS port to bind to.")
+	overrideWebPort := flag.Int("web", config.Doic.DNSPort, "Web port to bind to.")
 	flag.Parse()
 
 	if *overrideDNSPort != config.Doic.DNSPort {
 		config.Doic.DNSPort = *overrideDNSPort
+	}
+	if *overrideWebPort != config.Doic.APIPort {
+		config.Doic.APIPort = *overrideWebPort
 	}
 
 	// format the string to be :port
