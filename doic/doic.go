@@ -22,12 +22,12 @@ type Config struct {
 	Doic struct {
 		Loglevel       string
 		DNSPort        int
-		APIPort        int
 		UpstreamDNS    string
 		BootstrapDelay time.Duration
 	}
 
 	Redirect struct {
+		RedirectPort  int
 		UseRedirect   bool
 		RedirectSite  string
 		RedirectIndex string
@@ -62,14 +62,14 @@ func main() {
 
 	// parse override flags
 	overrideDNSPort := flag.Int("dns", config.Doic.DNSPort, "DNS port to bind to.")
-	overrideWebPort := flag.Int("web", config.Doic.DNSPort, "Web port to bind to.")
+	overrideWebPort := flag.Int("web", config.Redirect.RedirectPort, "Web port to bind to.")
 	flag.Parse()
 
 	if *overrideDNSPort != config.Doic.DNSPort {
 		config.Doic.DNSPort = *overrideDNSPort
 	}
-	if *overrideWebPort != config.Doic.APIPort {
-		config.Doic.APIPort = *overrideWebPort
+	if *overrideWebPort != config.Redirect.RedirectPort {
+		config.Redirect.RedirectPort = *overrideWebPort
 	}
 
 	// format the string to be :port
@@ -146,8 +146,8 @@ func endpointListener() {
 	// serve up the web view in configured directory
 	staticIndex := http.FileServer(http.Dir(config.Redirect.RedirectIndex))
 	http.Handle("/", staticIndex)
-	glogger.Info.Printf("static site listening on %d\n", config.Doic.APIPort)
-	http.ListenAndServe(fmt.Sprintf(":%d", config.Doic.APIPort), nil)
+	glogger.Info.Printf("static site listening on %d\n", config.Redirect.RedirectPort)
+	http.ListenAndServe(fmt.Sprintf(":%d", config.Redirect.RedirectPort), nil)
 }
 
 // Get preferred outbound ip of this machine

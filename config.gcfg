@@ -1,11 +1,11 @@
 [doic]
   loglevel        = "debug"
   dnsport         = 53
-  apiport         = 80
   upstreamdns     = "8.8.8.8:53"
   bootstrapdelay  = 1
 
 [redirect]
+  redirectport    = 80
   useredirect     = true
   redirectsite    = ""
   redirectindex   = "deps/static/"
