@@ -20,7 +20,8 @@ run:
 	go run \
 		doic/doic.go \
 		doic/upstream_query.go \
-		--port=8053
+		--dns=8053 \
+		--web=8080
 
 run_client:
 	go run \
@@ -49,7 +50,7 @@ test_cli: clean stat_cli
 	bin/doic_cli get 127.0.0.1
 
 start_test_server: stat
-	@bin/doic* -port=8053 -web=8080 & echo $$! > bin/.pid
+	@bin/doic* --dns=8053 --web=8080 & echo $$! > bin/.pid
 	go test -v doic/*.go
 	@$(MAKE) kill_test_server
 

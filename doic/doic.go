@@ -25,6 +25,7 @@ type Config struct {
 		APIPort        int
 		UpstreamDNS    string
 		BootstrapDelay time.Duration
+		UseRedirect    bool
 		RedirectSite   string
 	}
 
@@ -56,7 +57,7 @@ func main() {
 	}
 
 	// parse override flags
-	overrideDNSPort := flag.Int("port", config.Doic.DNSPort, "DNS port to bind to.")
+	overrideDNSPort := flag.Int("dns", config.Doic.DNSPort, "DNS port to bind to.")
 	overrideWebPort := flag.Int("web", config.Doic.DNSPort, "Web port to bind to.")
 	flag.Parse()
 

@@ -75,8 +75,18 @@ func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client)
 		// return rcode3 to client (nonexist)
 		rr := new(dns.A)
 		rr.Hdr = dns.RR_Header{Name: hostname, Rrtype: dns.TypeA, Class: dns.ClassINET, Ttl: 1}
-		//rr.A = net.ParseIP("127.0.0.1")
-		rr.A = net.ParseIP(externalIp)
+
+		// if doic is configured to use redirection give the configured/default redirect ip
+		if config.Doic.UseRedirect {
+			// set the ip to the external ip if 'redirectsite' is not set
+			if config.Doic.RedirectSite == "" {
+				rr.A = net.ParseIP(externalIp)
+			} else {
+				rr.A = net.ParseIP(config.Doic.RedirectSite)
+			}
+		} else {
+			rr.A = net.ParseIP("127.0.0.1")
+		}
 
 		// craft reply
 		rep := new(dns.Msg)
