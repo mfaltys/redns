@@ -4,8 +4,11 @@
   apiport         = 80
   upstreamdns     = "8.8.8.8:53"
   bootstrapdelay  = 1
+
+[redirect]
   useredirect     = true
   redirectsite    = ""
+  redirectindex   = "deps/static/"
 
 [redis]
   host            = "localhost:6379"

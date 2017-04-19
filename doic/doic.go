@@ -4,14 +4,14 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
-	"log"
+	//"log"
 	"net"
 	"net/http"
 	"os"
 	"strings"
 	"time"
 
-	"github.com/gorilla/mux"
+	//"github.com/gorilla/mux"
 	"github.com/miekg/dns"
 	"github.com/unixvoid/glogger"
 	"gopkg.in/gcfg.v1"
@@ -25,8 +25,12 @@ type Config struct {
 		APIPort        int
 		UpstreamDNS    string
 		BootstrapDelay time.Duration
-		UseRedirect    bool
-		RedirectSite   string
+	}
+
+	Redirect struct {
+		UseRedirect   bool
+		RedirectSite  string
+		RedirectIndex string
 	}
 
 	Redis struct {
@@ -139,16 +143,11 @@ func initRedisConnection() (*redis.Client, error) {
 	return client, redisErr
 }
 func endpointListener() {
-	// set up router for static pages
-	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		// func here shillz(w, r, client)
-		statichandler(w, r)
-	}).Methods("GET")
-
-	// serve up the web view
-	glogger.Info.Printf("web frontend running on %d\n", config.Doic.APIPort)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", config.Doic.APIPort), router))
+	// serve up the web view in configured directory
+	staticIndex := http.FileServer(http.Dir(config.Redirect.RedirectIndex))
+	http.Handle("/", staticIndex)
+	glogger.Info.Printf("static site listening on %d\n", config.Doic.APIPort)
+	http.ListenAndServe(fmt.Sprintf(":%d", config.Doic.APIPort), nil)
 }
 
 // Get preferred outbound ip of this machine
@@ -166,5 +165,6 @@ func getoutboundIP() string {
 }
 
 func statichandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	fmt.Fprintf(w, "hello warld")
 }
