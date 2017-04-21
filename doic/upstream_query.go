@@ -65,15 +65,15 @@ func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client)
 		glogger.Error.Println(err)
 	}
 
+	// set client to 'localhost' if it comes from localhost
+	if client[0] == "[" {
+		client[0] = "localhost"
+	}
+
 	// handle blacklisted domain case
 	if exists {
 		// TODO add option to return 'nonexistent' or a custom upstream domain
 		//   this could be a custom page hosted by the server iteslf...
-
-		// set client to 'localhost' if it comes from localhost
-		if client[0] == "[" {
-			client[0] = "localhost"
-		}
 		glogger.Debug.Printf("intercepted blacklisted domain '%s' on client '%s'\n", hostname, client[0])
 		externalIp := getoutboundIP()
 
