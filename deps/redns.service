@@ -1,20 +1,20 @@
 [Unit]
-Description=doic DNS IOC
+Description=redns DNS IOC
 
 [Service]
 ExecStart=/usr/bin/rkt run \
 	--port=dns-tcp:8053 \
 	--port=dns-udp:8053 \
-	--volume redis,kind=host,source=/tmp/doic_redis/ \
+	--volume redis,kind=host,source=/tmp/redns_redis/ \
 	unixvoid.com/redis --mount volume=redis,target=/redisbak/ \
-        unixvoid.com/doic
+        unixvoid.com/redns
 
 #[Service]
 #ExecStart=/usr/bin/rkt run \
 #	--net=host \
-#	--volume redis,kind=host,source=/tmp/doic_redis/ \
+#	--volume redis,kind=host,source=/tmp/redns_redis/ \
 #	unixvoid.com/redis --mount volume=redis,target=/redisbak/ \
-#       unixvoid.com/doic
+#       unixvoid.com/redns
 
 [Install]
 WantedBy=multi-user.target

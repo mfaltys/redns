@@ -1,7 +1,8 @@
-[doic]
+[redns]
 	loglevel	= "debug"
 	dnsport		= 8053
 	upstreamdns	= "8.8.8.8:53"
+	bootstrapdelay  = 1
 
 [redis]
 	host		= "localhost:6379"

@@ -14,7 +14,7 @@ import (
 )
 
 type Config struct {
-	Doic struct {
+	Redns struct {
 		Loglevel       string
 		DNSPort        int
 		UpstreamDNS    string
@@ -31,13 +31,13 @@ var config = Config{}
 
 func main() {
 	readConf("config.gcfg")
-	initLogger(config.Doic.Loglevel)
+	initLogger(config.Redns.Loglevel)
 
 	// initialize redis connection
 	redisClient, err := initRedisConnection()
 	if err != nil {
 		glogger.Debug.Println("redis conneciton cannot be made, trying again in 1 second")
-		time.Sleep(config.Doic.BootstrapDelay * time.Second)
+		time.Sleep(config.Redns.BootstrapDelay * time.Second)
 		redisClient, err = initRedisConnection()
 		if err != nil {
 			glogger.Error.Println("redis connection cannot be made.")
@@ -49,19 +49,19 @@ func main() {
 	}
 
 	// parse override flags
-	overrideDNSPort := flag.Int("port", config.Doic.DNSPort, "DNS port to bind to.")
+	overrideDNSPort := flag.Int("port", config.Redns.DNSPort, "DNS port to bind to.")
 	flag.Parse()
 
-	if *overrideDNSPort != config.Doic.DNSPort {
-		config.Doic.DNSPort = *overrideDNSPort
+	if *overrideDNSPort != config.Redns.DNSPort {
+		config.Redns.DNSPort = *overrideDNSPort
 	}
 
 	// format the string to be :port
-	fPort := fmt.Sprint(":", config.Doic.DNSPort)
+	fPort := fmt.Sprint(":", config.Redns.DNSPort)
 
 	udpServer := &dns.Server{Addr: fPort, Net: "udp"}
 	tcpServer := &dns.Server{Addr: fPort, Net: "tcp"}
-	glogger.Info.Println("started server on", config.Doic.DNSPort)
+	glogger.Info.Println("started server on", config.Redns.DNSPort)
 
 	dns.HandleFunc(".", func(w dns.ResponseWriter, req *dns.Msg) {
 		switch req.Question[0].Qtype {

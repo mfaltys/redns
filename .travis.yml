@@ -14,25 +14,25 @@ install:
 script:
   # add blacklisted domains to redis
   - make populate_redis
-  # run doic go-tests
+  # run redns go-tests
   - make test --no-print-directory
-  # test doic_cli
+  # test redns_cli
   - make test_cli
 
 after_success:
-  ### doic
-  # statically compile doic
+  ### redns
+  # statically compile redns
   - make stat
-  # upload doic to binder
-  - curl -i --form sec=$BINDER_SEC --form file=@`ls bin/doic*` --form path=doic/ --form filename=doic-latest-linux-amd64 https://cryo.unixvoid.com/upload
-  ### doic_cli
-  # statically compile doic_cli
+  # upload redns to binder
+  - curl -i --form sec=$BINDER_SEC --form file=@`ls bin/redns*` --form path=redns/ --form filename=redns-latest-linux-amd64 https://cryo.unixvoid.com/upload
+  ### redns_cli
+  # statically compile redns_cli
   - make clean stat_cli
-  # upload doic_cli to binder
-  - curl -i --form sec=$BINDER_SEC --form file=@`ls bin/doic*` --form path=doic/ --form filename=doic_cli-latest-linux-amd64 https://cryo.unixvoid.com/upload
-  ### upload doic to rkt
+  # upload redns_cli to binder
+  - curl -i --form sec=$BINDER_SEC --form file=@`ls bin/redns*` --form path=redns/ --form filename=redns_cli-latest-linux-amd64 https://cryo.unixvoid.com/upload
+  ### upload redns to rkt
   - make clean build_travis_aci
-  - mv doic.aci doic-latest-linux-amd64.aci
+  - mv redns.aci redns-latest-linux-amd64.aci
   # grab pub/pri keys
   - curl -d sec=$BINDER_SEC -d key=unixvoid.pub https://cryo.unixvoid.com/getfile --output unixvoid.pub
   - curl -d sec=$BINDER_SEC -d key=unixvoid.sec https://cryo.unixvoid.com/getfile --output unixvoid.sec
@@ -40,5 +40,5 @@ after_success:
   - cp deps/sign.sh . && chmod +x sign.sh
   - ./sign.sh $GPG_SEC
   # upload aci to binder
-  - curl -i --form sec=$BINDER_SEC --form file=@doic-latest-linux-amd64.aci --form path=rkt/doic/ https://cryo.unixvoid.com/upload
-  - curl -i --form sec=$BINDER_SEC --form file=@doic-latest-linux-amd64.aci.asc --form path=rkt/doic/ https://cryo.unixvoid.com/upload
+  - curl -i --form sec=$BINDER_SEC --form file=@redns-latest-linux-amd64.aci --form path=rkt/redns/ https://cryo.unixvoid.com/upload
+  - curl -i --form sec=$BINDER_SEC --form file=@redns-latest-linux-amd64.aci.asc --form path=rkt/redns/ https://cryo.unixvoid.com/upload

@@ -14,7 +14,7 @@ func TestANameResolveCorrect(t *testing.T) {
 	m1 := new(dns.Msg)
 	m1.SetQuestion(dns.Fqdn("google.com"), dns.TypeA)
 
-	addr := fmt.Sprintf("127.0.0.1:%d", config.Doic.DNSPort)
+	addr := fmt.Sprintf("127.0.0.1:%d", config.Redns.DNSPort)
 	req, err := dns.Exchange(m1, addr)
 	if err != nil {
 		t.Error("error sending request. is the server running?")
@@ -39,7 +39,7 @@ func TestANameResolveInorrect(t *testing.T) {
 	m1 := new(dns.Msg)
 	m1.SetQuestion(dns.Fqdn("not.a.domain"), dns.TypeA)
 
-	addr := fmt.Sprintf("127.0.0.1:%d", config.Doic.DNSPort)
+	addr := fmt.Sprintf("127.0.0.1:%d", config.Redns.DNSPort)
 	req, err := dns.Exchange(m1, addr)
 	if err != nil {
 		t.Error("error sending request. is the server running?")

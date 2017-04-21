@@ -17,7 +17,7 @@ func upstreamQuery(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client
 		transport = "tcp"
 	}
 	c := &dns.Client{Net: transport}
-	resp, _, err := c.Exchange(req, config.Doic.UpstreamDNS)
+	resp, _, err := c.Exchange(req, config.Redns.UpstreamDNS)
 
 	if err != nil {
 		glogger.Debug.Println(err)

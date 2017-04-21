@@ -1,7 +1,7 @@
 {
     "acKind": "ImageManifest",
     "acVersion": "0.7.1",
-    "name": "unixvoid.com/doic",
+    "name": "unixvoid.com/redns",
     "labels": [
         {
             "name": "version",
@@ -20,7 +20,7 @@
         "user": "root",
         "group": "root",
         "exec": [
-            "/doic"
+            "/redns"
         ],
         "ports": [
         {
