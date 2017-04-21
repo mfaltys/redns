@@ -4,5 +4,5 @@
 	--batch --yes \
 	--no-default-keyring --armor \
 	--secret-keyring ./unixvoid.sec --keyring ./unixvoid.pub \
-	--output doic-latest-linux-amd64.aci.asc \
-	--detach-sig doic-latest-linux-amd64.aci
+	--output redns-latest-linux-amd64.aci.asc \
+	--detach-sig redns-latest-linux-amd64.aci

@@ -17,7 +17,7 @@ func upstreamQuery(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client
 		transport = "tcp"
 	}
 	c := &dns.Client{Net: transport}
-	resp, _, err := c.Exchange(req, config.Doic.UpstreamDNS)
+	resp, _, err := c.Exchange(req, config.Redns.UpstreamDNS)
 
 	if err != nil {
 		glogger.Debug.Println(err)
@@ -81,7 +81,7 @@ func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client)
 		rr := new(dns.A)
 		rr.Hdr = dns.RR_Header{Name: hostname, Rrtype: dns.TypeA, Class: dns.ClassINET, Ttl: 1}
 
-		// if doic is configured to use redirection give the configured/default redirect ip
+		// if redns is configured to use redirection give the configured/default redirect ip
 		if config.Redirect.UseRedirect {
 			// set the ip to the external ip if 'redirectsite' is not set
 			if config.Redirect.RedirectSite == "" {

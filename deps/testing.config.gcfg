@@ -1,4 +1,4 @@
-[doic]
+[redns]
 	loglevel	= "debug"
 	dnsport		= 8053
 	upstreamdns	= "8.8.8.8:53"

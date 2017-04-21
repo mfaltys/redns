@@ -56,7 +56,7 @@ func main() {
 		if len(args) != 2 {
 			// nothing was entered, end
 			glogger.Error.Println("no client given.")
-			// TODO : print syntax of ./doic_cli get <client_ip>
+			// TODO : print syntax of ./redns_cli get <client_ip>
 			os.Exit(0)
 		}
 		// get client history for args[1]
