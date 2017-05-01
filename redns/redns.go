@@ -4,14 +4,12 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
-	//"log"
 	"net"
 	"net/http"
 	"os"
 	"strings"
 	"time"
 
-	//"github.com/gorilla/mux"
 	"github.com/miekg/dns"
 	"github.com/unixvoid/glogger"
 	"gopkg.in/gcfg.v1"
@@ -40,10 +38,15 @@ type Config struct {
 }
 
 var config = Config{}
+var version = "undefined"
 
 func main() {
 	readConf("config.gcfg")
 	initLogger(config.Redns.Loglevel)
+
+	// print version number
+	glogger.Info.Println("\x1b[33mRedns ioc..\x1b[39m")
+	glogger.Info.Printf("\x1b[36mPRE-RELEASE version: %s\x1b[39m\n", version)
 
 	// initialize redis connection
 	redisClient, err := initRedisConnection()

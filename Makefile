@@ -1,8 +1,10 @@
 .PHONY: all redns
 GOC=go build
-GOFLAGS=-a -ldflags '-s'
+GOFLAGS=-a -ldflags '-s -X main.version=${VERSION}'
 CGOR=CGO_ENABLED=0
 GIT_HASH=$(shell git rev-parse HEAD | head -c 10)
+VERSION := $(shell git describe --always --long --dirty)
+
 
 all: redns
 
