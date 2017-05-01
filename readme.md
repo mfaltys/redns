@@ -38,3 +38,6 @@ stages (pre-release) of redns.
 You can find our documentation over on [github pages](https://mfaltys.github.io/redns_docs)  
 * [Milestone 1](https://mfaltys.github.io/redns_docs/milestone.1/)  
 * [Milestone 2](https://mfaltys.github.io/redns_docs/milestone.2/)
+
+### Contributions
+Big shoutout to [MLHale](https://github.com/MLHale) for the project name, turns out that was the hardest part.
