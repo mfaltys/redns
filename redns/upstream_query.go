@@ -51,7 +51,7 @@ func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client)
 	// add client history entry to redis
 	err = redisClient.RPush(fmt.Sprintf("client:%s", client[0]), fmt.Sprintf("%s :: %s", timestamp, hostname)).Err()
 	if err != nil {
-		glogger.Error.Printf("error adding hostname: '%s' for client: 'client:%s'\n", hostname, client)
+		glogger.Error.Printf("error adding hostname: '%s' for client: 'client:%s'\n", hostname, client[0])
 		glogger.Error.Printf("%s", err)
 	}
 
