@@ -1,8 +1,15 @@
 [redns]
-	loglevel	= "debug"
-	dnsport		= 8053
-	upstreamdns	= "8.8.8.8:53"
+  loglevel        = "debug"
+  dnsport         = 8053
+  upstreamdns     = "8.8.8.8:53"
+  bootstrapdelay  = 1
+
+[redirect]
+  redirectport    = 80
+  useredirect     = true
+  redirectsite    = ""
+  redirectindex   = "deps/static/"
 
 [redis]
-	host		= "localhost:6379"
-	password	= ""
+  host            = "localhost:6379"
+  password        = ""
