@@ -73,8 +73,9 @@ populate_redis: generate_domain_list
 	bash domains > /dev/null
 
 prep_aci: stat
-	mkdir -p redns-layout/rootfs/
+	mkdir -p redns-layout/rootfs/deps/
 	cp deps/manifest.json redns-layout/manifest
+	cp -R deps/static redns-layout/rootfs/deps/
 	cp bin/redns-* redns-layout/rootfs/redns
 	cp config.gcfg redns-layout/rootfs/
 
