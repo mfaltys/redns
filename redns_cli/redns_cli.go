@@ -63,6 +63,16 @@ func main() {
 		glogger.Debug.Println("getting client entries")
 		println()
 		getClientHistory(redisClient, args[1])
+	case "add":
+		// add a new domain to the blacklist databse
+		if len(args) != 2 {
+			// no argument was passed, exit
+			glogger.Error.Println("no domain given.")
+			// TODO : print syntax of ./redns_cli add <domain>
+			os.Exit(0)
+		}
+		glogger.Debug.Printf("adding '%s' to blacklist", args[1])
+		addBlacklistDomain(redisClient, args[1])
 	}
 }
 
@@ -116,4 +126,9 @@ func getClientHistory(redisClient *redis.Client, client string) {
 		fmt.Printf("  %s\n", clientHistory[i])
 	}
 	//glogger.Debug.Printf("%s", clientHistory)
+}
+
+func addBlacklistDomain(redisClient *redis.Client, domain string) {
+	// redis sadd to 'blacklist:domain'
+	redisClient.SAdd("blacklist:domain", domain)
 }
