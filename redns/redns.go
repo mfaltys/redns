@@ -18,10 +18,11 @@ import (
 
 type Config struct {
 	Redns struct {
-		Loglevel       string
-		DNSPort        int
-		UpstreamDNS    string
-		BootstrapDelay time.Duration
+		Loglevel          string
+		DNSPort           int
+		UpstreamDNS       string
+		BootstrapDelay    time.Duration
+		WildcardSubdomain bool
 	}
 
 	Redirect struct {

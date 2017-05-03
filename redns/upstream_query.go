@@ -58,6 +58,21 @@ func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client)
 	// un-fully qualify domain if its qualified
 	bhost := hostname[:len(hostname)-1]
 
+	// if wildcardsubdomain is set, test for the base domain
+	if config.Redns.WildcardSubdomain {
+		// parse out subdomain to leave base domain
+		// this checks for site-wide entry/covers whole dom
+		doms := strings.Split(bhost, ".")
+
+		// its a subdomain if there are more than 2 splits
+		if len(doms) > 2 {
+			// set bhost to the parent domain
+			ogbhost := bhost
+			bhost = fmt.Sprintf("%s.%s", doms[len(doms)-2], doms[len(doms)-1])
+			glogger.Debug.Printf("testing parent domain '%s' of '%s'", bhost, ogbhost)
+		}
+	}
+
 	// query redis to see if entry exists in 'blacklist:domain' O(1)
 	exists, err := redisClient.SIsMember("blacklist:domain", bhost).Result()
 	if err != nil {
@@ -122,7 +137,6 @@ func aaaanameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Clie
 	hostname := req.Question[0].Name
 
 	// return NOERROR and empty body to client (no ipv6 address exists, try ipv4)
-	// TODO logic to actually check if address exists
 	rr := new(dns.AAAA)
 	rr.Hdr = dns.RR_Header{Name: hostname, Rrtype: dns.TypeAAAA, Class: dns.ClassINET, Ttl: 1}
 	rr.AAAA = net.ParseIP("")
