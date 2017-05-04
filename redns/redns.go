@@ -99,7 +99,7 @@ func main() {
 			// TODO add CNAME support
 			break
 		case 28:
-			glogger.Debug.Println("'AAAA' request recieved, continuing")
+			//glogger.Debug.Println("'AAAA' request recieved, continuing")
 			go aaaanameresolve(w, req, redisClient)
 			break
 		default:
@@ -166,9 +166,4 @@ func getoutboundIP() string {
 	idx := strings.LastIndex(localAddr, ":")
 
 	return localAddr[0:idx]
-}
-
-func statichandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprintf(w, "hello warld")
 }

@@ -26,6 +26,23 @@ func upstreamQuery(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client
 	return resp
 }
 
+func anamepreresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client) {
+	// parse hostname
+	hostname := req.Question[0].Name
+
+	if hostname == "localhost." {
+		req = upstreamQuery(w, req, redisClient)
+		// write response back from client
+		if req != nil {
+			w.WriteMsg(req)
+		} else {
+			glogger.Error.Println("Error getting response from upstream")
+		}
+	} else {
+		anameresolve(w, req, redisClient)
+	}
+}
+
 func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client) {
 	// parse hostname
 	hostname := req.Question[0].Name
