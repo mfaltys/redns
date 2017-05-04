@@ -31,13 +31,14 @@ from source.
 ### Configuration
 Currently a work in progress as the configuration is changing often in the early
 stages (pre-release) of redns.  
-[Configuration docs](https://mfaltys.github.io/redns_docs/configuration/)  
+[Configuration docs](https://mfaltys.github.io/redns_docs/configuration/index)  
 
 
 ## Documentation  
 You can find our documentation over on [github pages](https://mfaltys.github.io/redns_docs)  
 * [Milestone 1](https://mfaltys.github.io/redns_docs/milestone.1/index)  
-* [Milestone 2](https://mfaltys.github.io/redns_docs/milestone.2/index)
+* [Milestone 2](https://mfaltys.github.io/redns_docs/milestone.2/index)  
+* [Milestone 3](https://mfaltys.github.io/redns_docs/milestone.3/index)
 
 ### Contributions
 Big shoutout to [MLHale](https://github.com/MLHale) for the project name, turns out that was the hardest part.
