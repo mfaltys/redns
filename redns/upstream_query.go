@@ -30,17 +30,12 @@ func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client)
 	// parse hostname
 	hostname := req.Question[0].Name
 
-	//glogger.Debug.Println(req.MsgHdr.String())
-	//glogger.Debug.Println(req.Question[0].String())
-	//glogger.Debug.Println(req.Extra[0].String())
-
 	// parse client ip
 	client := strings.Split(w.RemoteAddr().String(), ":")
 
 	// generate timestamp
 	t := time.Now()
 	timestamp := fmt.Sprintf("%s", t.Format("2006/01/02 15:04:05"))
-	//timestamp := fmt.Sprintf("%s", t.Format(time.RFC1123))
 
 	// add client to redis client:list
 	err := redisClient.SAdd("client:list", client[0]).Err()
@@ -87,8 +82,6 @@ func anameresolve(w dns.ResponseWriter, req *dns.Msg, redisClient *redis.Client)
 
 	// handle blacklisted domain case
 	if exists {
-		// TODO add option to return 'nonexistent' or a custom upstream domain
-		//   this could be a custom page hosted by the server iteslf...
 		glogger.Debug.Printf("intercepted blacklisted domain '%s' on client '%s'\n", hostname, client[0])
 		externalIp := getoutboundIP()
 
