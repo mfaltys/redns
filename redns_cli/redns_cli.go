@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -16,8 +17,21 @@ var (
 )
 
 func main() {
-	// TODO
-	//   - flags for overriding: redishost, redispass, loglevel
+	// parse override flags
+	overrideLoglevel := flag.String("loglevel", loglevel, "Loglevel to use: 'Debug, Info, Error'")
+	overrideRedisHost := flag.String("redishost", redisHost, "Redis host and port to bind to")
+	overrideRedisPass := flag.String("redispass", redisPass, "Redis password")
+	flag.Parse()
+
+	if *overrideLoglevel != loglevel {
+		loglevel = *overrideLoglevel
+	}
+	if *overrideRedisHost != redisHost {
+		redisHost = *overrideRedisHost
+	}
+	if *overrideRedisPass != redisPass {
+		redisPass = *overrideRedisPass
+	}
 
 	// initialize logger
 	initLogger(loglevel)
