@@ -96,7 +96,7 @@ func main() {
 			go anameresolve(w, req, redisClient)
 			break
 		case 5:
-			glogger.Debug.Println("'CNAME' request detected: TODO")
+			// TODO add CNAME support
 			break
 		case 28:
 			glogger.Debug.Println("'AAAA' request recieved, continuing")
